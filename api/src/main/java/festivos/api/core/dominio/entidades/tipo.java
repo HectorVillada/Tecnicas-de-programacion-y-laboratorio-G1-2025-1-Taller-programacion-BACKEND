@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tipo")
-public class tipo {
+public class Tipo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "secuenciador_tipo")
@@ -21,12 +21,12 @@ public class tipo {
     @Column(name = "tipo", unique = true, nullable = false)
     private String nombre;
 
-    public tipo(int id, String nombre) {
+    public Tipo(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
-    public tipo() {
+    public Tipo() {
     }
 
     public int getId() {
@@ -47,3 +47,5 @@ public class tipo {
 
 
 }
+
+

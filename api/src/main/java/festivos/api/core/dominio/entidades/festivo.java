@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "festivo")
-public class festivo {
+public class Festivo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "secuenciador_festivo")
@@ -30,10 +30,10 @@ public class festivo {
 
     @ManyToOne
     @JoinColumn(name = "idtipo", referencedColumnName = "id")
-    private tipo tipo;
+    private Tipo tipo;
 
-    public festivo(int id, String nombre, int dia, int mes, int diasPascua,
-            festivos.api.core.dominio.entidades.tipo tipo) {
+    public Festivo(int id, String nombre, int dia, int mes, int diasPascua,
+            festivos.api.core.dominio.entidades.Tipo tipo) {
         this.id = id;
         this.nombre = nombre;
         this.dia = dia;
@@ -42,7 +42,7 @@ public class festivo {
         this.tipo = tipo;
     }
 
-    public festivo() {
+    public Festivo() {
     }
 
     public int getId() {
@@ -85,14 +85,12 @@ public class festivo {
         this.diasPascua = diasPascua;
     }
 
-    public tipo getTipo() {
+    public Tipo getTipo() {
         return tipo;
     }
 
-    public void setTipo(tipo tipo) {
+    public void setTipo(Tipo tipo) {
         this.tipo = tipo;
-    }
-
-    
+    }   
 
 }
