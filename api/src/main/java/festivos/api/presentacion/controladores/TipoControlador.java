@@ -53,7 +53,7 @@ public class TipoControlador {
 
     @PutMapping("/{id}")
     public ResponseEntity<Tipo> modificar(@PathVariable int id, @RequestBody Tipo tipo) {
-        tipo.setId(id); // Asegura que el ID sea el del path
+        tipo.setId(id);
         Tipo actualizado = tipoServicio.modificar(tipo);
         if (actualizado == null) {
             return ResponseEntity.notFound().build();

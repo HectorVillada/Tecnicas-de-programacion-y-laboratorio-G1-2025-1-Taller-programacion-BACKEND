@@ -13,8 +13,8 @@ import jakarta.persistence.Table;
 public class Tipo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "secuenciador_tipo")
-    @SequenceGenerator(name = "secuenciador_tipo", sequenceName = "secuenciador_tipo", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "tipo_id_seq")
+    @SequenceGenerator(name = "tipo_id_seq", sequenceName = "tipo_id_seq", allocationSize = 1)
     @Column(name = "id")
     private int id;
 

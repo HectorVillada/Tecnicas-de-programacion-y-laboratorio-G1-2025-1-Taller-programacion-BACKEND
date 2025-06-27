@@ -15,8 +15,8 @@ import jakarta.persistence.Table;
 public class Festivo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "secuenciador_festivo")
-    @SequenceGenerator(name = "secuenciador_festivo", sequenceName = "secuenciador_festivo", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "festivo_id_seq")
+    @SequenceGenerator(name = "festivo_id_seq", sequenceName = "festivo_id_seq", allocationSize = 1)
     @Column(name = "id")
     private int id;
     @Column(name = "nombre", length = 100, unique = true)

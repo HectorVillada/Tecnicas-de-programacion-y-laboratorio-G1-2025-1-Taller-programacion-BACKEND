@@ -16,23 +16,21 @@ import java.util.List;
 @RequestMapping("/api/festivos")
 public class FestivoControlador {
 
-    private IFestivoServicio servicio;
+    private final IFestivoServicio servicio;
 
-    public FestivoServicio(IFestivoServicio servicio){
+    @Autowired
+    public FestivoControlador(IFestivoServicio servicio) {
         this.servicio = servicio;
     }
 
-    @Autowired
-    private IFestivoServicio festivoServicio;
-
     @GetMapping
     public ResponseEntity<List<Festivo>> obtenerTodos() {
-        return ResponseEntity.ok(festivoServicio.obtenerTodos());
+        return ResponseEntity.ok(servicio.obtenerTodos());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Festivo> obtenerPorId(@PathVariable Long id) {
-        Festivo festivo = festivoServicio.obtenerPorId(id);
+        Festivo festivo = servicio.obtenerPorId(id);
         if (festivo == null) {
             return ResponseEntity.notFound().build();
         }
@@ -41,18 +39,18 @@ public class FestivoControlador {
 
     @GetMapping("/buscar")
     public ResponseEntity<List<Festivo>> buscar(@RequestParam String dato) {
-        return ResponseEntity.ok(festivoServicio.buscar(dato));
+        return ResponseEntity.ok(servicio.buscar(dato));
     }
 
     @PostMapping
     public ResponseEntity<Festivo> agregar(@RequestBody Festivo festivo) {
-        return ResponseEntity.ok(festivoServicio.agregar(festivo));
+        return ResponseEntity.ok(servicio.agregar(festivo));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Festivo> modificar(@PathVariable Long id, @RequestBody Festivo festivo) {
         festivo.setId(id);
-        Festivo actualizado = festivoServicio.modificar(festivo);
+        Festivo actualizado = servicio.modificar(festivo);
         if (actualizado == null) {
             return ResponseEntity.notFound().build();
         }
@@ -61,7 +59,7 @@ public class FestivoControlador {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        boolean eliminado = festivoServicio.eliminar(id);
+        boolean eliminado = servicio.eliminar(id);
         if (eliminado) {
             return ResponseEntity.noContent().build();
         }
@@ -70,15 +68,27 @@ public class FestivoControlador {
 
     @GetMapping("/anio/{anio}")
     public ResponseEntity<List<Festivo>> obtenerPorAnio(@PathVariable int anio) {
-        return ResponseEntity.ok(festivoServicio.obtenerPorAño(anio));
+        return ResponseEntity.ok(servicio.obtenerPorAño(anio));
     }
 
     @GetMapping("/verificar")
-    public ResponseEntity<String> esFestivo(
+    public ResponseEntity<String> esFestivoQueryParam(
         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
+        String resultado = servicio.verificarFestivo(fecha);
+        return ResponseEntity.ok(resultado);
+    }
 
-        boolean esFestivo = festivoServicio.esFestivo(fecha);
-        String mensaje = esFestivo ? "Es festivo" : "No es festivo";
-        return ResponseEntity.ok(mensaje);
+    @GetMapping("/verificar/{anio}/{mes}/{dia}")
+    public ResponseEntity<String> verificarFestivoPath(
+            @PathVariable int anio,
+            @PathVariable int mes,
+            @PathVariable int dia) {
+        try {
+            LocalDate fecha = LocalDate.of(anio, mes, dia);
+            String resultado = servicio.verificarFestivo(fecha);
+            return ResponseEntity.ok(resultado);
+        } catch (Exception e) {
+            return ResponseEntity.ok("Fecha no válida");
+        }
     }
 }
